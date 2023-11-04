@@ -1,0 +1,28 @@
+public class CajeroAutomatico {
+    private double saldo = 1000;
+
+    public synchronized void retirar(double cantidad) {
+        if (saldo >= cantidad) {
+            System.out.println("Retiro de $" + cantidad);
+            saldo -= cantidad;
+            System.out.println("Saldo actual: $" + saldo);
+        } else {
+            System.out.println("Fondos insuficientes para retirar $" + cantidad);
+        }
+    }
+
+    public static void main(String[] args) {
+        CajeroAutomatico cajero = new CajeroAutomatico();
+
+        Thread hiloCliente1 = new Thread(() -> {
+            cajero.retirar(300);
+        });
+
+        Thread hiloCliente2 = new Thread(() -> {
+            cajero.retirar(500);
+        });
+
+        hiloCliente1.start();
+        hiloCliente2.start();
+    }
+}
